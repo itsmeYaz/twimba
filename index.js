@@ -1,4 +1,5 @@
 import { tweetsData } from "./data.js";
+import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 
 const tweetInput = document.querySelector("#tweet-input");
 
@@ -11,7 +12,6 @@ document.addEventListener("click", (event) => {
     handleReplyClick(event.target.dataset.reply);
   } else if (event.target.id === "tweet-btn") {
     handleTweetBtnClick();
-    tweetInput.value = "";
   }
 });
 
@@ -52,7 +52,21 @@ function handleReplyClick(replyId) {
 }
 
 function handleTweetBtnClick() {
-  console.log(tweetInput.value);
+  if (tweetInput.value) {
+    tweetsData.unshift({
+      handle: `@scrimba123😆`,
+      profilePic: `images/scrimbalogo.png`,
+      likes: 0,
+      retweets: 0,
+      tweetText: `${tweetInput.value}`,
+      replies: [],
+      isLiked: false,
+      isRetweeted: false,
+      uuid: uuidv4(),
+    });
+    render();
+    tweetInput.value = "";
+  }
 }
 
 function getFeedHtml() {
